@@ -18,5 +18,5 @@ This is my repo for *STATS 220*.
 * Camping
 * Learning languages
 
-This meme shows how I feel while working on my project ![](https://tenor.com/ko/view/homework-kid-sleepy-tired-dozeoff-gif-13177061363673668835)
+A meme shows how I feel while working on my project ![gg](https://tenor.com/ko/view/homework-kid-sleepy-tired-dozeoff-gif-13177061363673668835)
 
