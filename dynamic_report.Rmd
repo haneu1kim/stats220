@@ -1,0 +1,100 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+library(tidyverse)
+```
+
+```{css echo = FALSE}
+body {
+     color: #000000;
+}
+
+h1 {
+   color: #FFFFFF;
+   background-color: #CD5C5C;
+   font-weight: bold;
+   padding: 15px
+}
+
+h2 {
+   color: #FFFFFF;
+   background-color: #F08080;
+   font-weight: bold;
+   padding: 10px
+}
+
+p {
+  color: #2F4F4F;
+}
+```
+
+# Analysis of Walking Activity Trends in New Zealand
+
+Health has become an important focus for many people these days. Particularly in New Zealand, it is an excellent country for various walking activities, and it is common to see most people walking. This made me curious about the types of walking activities people mainly engage in, so I decided to research the trends in walking activities. I investigated walking time, walking motivations, types of walking activities, and the number of people in a group. Additionally, due to New Zealand's nature-friendly environment and its suitability for pets, I also looked into whether people walk with their pets.
+
+## Survey Questions
+
+Walking Time: How long do you spend on a walking activities?
+
+Motivation: What motivates you to do walking activities?
+
+Walking Activity: What is the person in front of you doing when you take a walk?
+
+Group Size: How many people were in the group in front of me?
+
+Pet: Were there any pet(s) in the group?
+
+## Comparing
+
+Through this, I aim to understand how many people typically walk in a group. I also want to explore whether there is a correlation between walking activities and walking with pets, and whether there is a difference in walking time depending on the motivation for walking.
+
+```{r}
+csv_file <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vQwbP2q4H8U_cTwGKknmxO5L9-434Apgum9j19FUyZYs01Qi4iOe0FyB0qMUHOtyqlax7x86zN8lUEa/pub?gid=1059411779&single=true&output=csv"
+
+logged_data <- read_csv(csv_file)
+
+latest_data <- logged_data %>%
+  rename(walking_time = 2,
+         motivation = 3,
+         walking_activity = 4,
+         group_size = 5,
+         pet = 6)
+
+#maximum group size
+paste0("The maximum group size in the latest data was ", max(latest_data$group_size), ".")
+
+#minimum group size
+paste0("The minimum group size in the latest data was ", min(latest_data$group_size), ".")
+
+#group size mean in one significant figure
+paste0("The mean group size in the latest data was ", mean(latest_data$group_size) %>% signif(1), " in 1 significant figure.")
+
+#Comparing the Impact of Walking Activity on Pet Accompaniment in a Bar Chart
+paste0("A bar chart show the relationship between walking activity and pet.")
+latest_data %>%
+  ggplot() +
+    geom_bar(aes(x = walking_activity, fill = pet))+
+  labs(title = "Walking Activity with Pets",
+       subtitle = "Comparing the Impact of Walking Activity on Pet Accompaniment",
+       caption = "Source: Observational logs",
+       x = "Walking activity",
+       y = "Number of survey")
+
+#Comparing the Impact of Motivation on Walking Time in a Bar Chart
+paste0("A bar chart shows the relationship between motivation and walking time.")
+latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = motivation, fill = walking_time))+
+  labs(title = "Does Motivation Affect Walking Time?",
+       subtitle = "Comparing the Impact of Motivation on Walking Time",
+       caption = "Source: Observational logs",
+       x = "Motivation",
+       y = "Number of survey")
+```
+
+
+![](https://c.tenor.com/-qBsG1HwR4oAAAAC/tenor.gif)
